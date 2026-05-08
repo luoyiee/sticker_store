@@ -1,0 +1,78 @@
+// 对齐 Flutter JTTextStyle，命名规则：jt-{category}-{size}
+// 用法：
+//   模板里：  class="jt-headline-small3-bold-18"
+//   scss 里：@include jt-headline-small3-bold-18
+
+@import './color_style';
+
+@mixin _text-base($size, $line-height, $weight) {
+  font-size: $size;
+  line-height: $line-height;
+  font-weight: $weight;
+}
+
+// ─── Headline — bold ────────────────────────────────────────
+// Flutter: headlineLargeBold32
+@mixin jt-headline-large-bold-32  { @include _text-base(32px, 40px, 700); }
+// Flutter: headlineMediumBold28
+@mixin jt-headline-medium-bold-28 { @include _text-base(28px, 36px, 700); }
+// Flutter: headlineMediumBold26
+@mixin jt-headline-medium-bold-26 { @include _text-base(26px, 34px, 700); }
+// Flutter: headlineSmallBold24
+@mixin jt-headline-small-bold-24  { @include _text-base(24px, 32px, 700); }
+// Flutter: headlineSmallBold20  → Figma: Android/Headline/Small 2_Bold_20
+@mixin jt-headline-small2-bold-20 { @include _text-base(20px, 28px, 700); }
+// Flutter: headlineSmall3Bold18 → Figma: Android/Headline/Small 3_Bold_18
+@mixin jt-headline-small3-bold-18 { @include _text-base(18px, 26px, 700); }
+
+// ─── Title — bold ───────────────────────────────────────────
+// Flutter: titleLargeBold22
+@mixin jt-title-large-bold-22  { @include _text-base(22px, 28px, 700); }
+// Flutter: titleMediumBold16
+@mixin jt-title-medium-bold-16 { @include _text-base(16px, 24px, 700); }
+// Flutter: titleSmallBold14
+@mixin jt-title-small-bold-14  { @include _text-base(14px, 20px, 700); }
+
+// ─── Label — bold ───────────────────────────────────────────
+// Flutter: labelLargeBold14
+@mixin jt-label-large-bold-14  { @include _text-base(14px, 20px, 700); }
+// Flutter: labelMediumBold12
+@mixin jt-label-medium-bold-12 { @include _text-base(12px, 16px, 700); }
+// Flutter: labelSmallBold11
+@mixin jt-label-small-bold-11  { @include _text-base(11px, 16px, 700); }
+
+// ─── Body — medium (w500) ───────────────────────────────────
+// Flutter: bodyLarge18
+@mixin jt-body-large-18   { @include _text-base(18px, 26px, 500); }
+// Flutter: bodyLarge16
+@mixin jt-body-large-16   { @include _text-base(16px, 24px, 500); }
+// Flutter: bodyMedium14
+@mixin jt-body-medium-14  { @include _text-base(14px, 20px, 500); }
+// Flutter: bodySmall12
+@mixin jt-body-small-12   { @include _text-base(12px, 16px, 500); }
+
+// ─── 全局 class（模板里直接用） ──────────────────────────────
+.jt-headline-large-bold-32  { @include jt-headline-large-bold-32; }
+.jt-headline-medium-bold-28 { @include jt-headline-medium-bold-28; }
+.jt-headline-medium-bold-26 { @include jt-headline-medium-bold-26; }
+.jt-headline-small-bold-24  { @include jt-headline-small-bold-24; }
+.jt-headline-small2-bold-20 { @include jt-headline-small2-bold-20; }
+.jt-headline-small3-bold-18 { @include jt-headline-small3-bold-18; }
+
+.jt-title-large-bold-22     { @include jt-title-large-bold-22; }
+.jt-title-medium-bold-16    { @include jt-title-medium-bold-16; }
+.jt-title-small-bold-14     { @include jt-title-small-bold-14; }
+
+.jt-label-large-bold-14     { @include jt-label-large-bold-14; }
+.jt-label-medium-bold-12    { @include jt-label-medium-bold-12; }
+.jt-label-small-bold-11     { @include jt-label-small-bold-11; }
+
+.jt-body-large-18           { @include jt-body-large-18; }
+.jt-body-large-16           { @include jt-body-large-16; }
+.jt-body-medium-14          { @include jt-body-medium-14; }
+.jt-body-small-12           { @include jt-body-small-12; }
+
+// ─── 颜色修饰 class ─────────────────────────────────────────
+.jt-text-primary   { color: var(--text-color); }
+.jt-text-secondary { color: var(--text-color-sub); }
+.jt-text-theme     { color: var(--theme-color); }

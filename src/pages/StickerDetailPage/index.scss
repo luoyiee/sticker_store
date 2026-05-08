@@ -1,0 +1,210 @@
+@import '@/ui/res/color_style';
+@import '@/ui/res/text_style';
+@import '@/ui/res/layout_style';
+@import '@/ui/res/shimmer_style';
+
+.detail-page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+
+.scroll-body {
+  flex: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+  text-align: center;
+  padding-top: calc(var(--top-bar-height) + var(--safe-top));
+}
+
+.cover-wrap {
+  width: 100px;
+  height: 100px;
+  margin: 16px auto 0;
+}
+
+.cover-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.pack-name {
+  margin-top: 16px;
+  @include jt-title-large-bold-22;
+  text-align: center;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.name-icon {
+  display: inline-flex;
+  align-items: center;
+  font-size: 18px;
+}
+
+.premium-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.description {
+  margin-top: 8px;
+  padding: 0 24px;
+  @include jt-body-medium-14;
+  text-align: center;
+  color: var(--text-color-sub);
+}
+
+// .divider {
+//   width: calc(100% - 48px);
+//   height: 1px;
+//   background-color: var(--divider-color);
+//   margin: 16px auto;
+// }
+
+.sticker-grid {
+  width: calc(100% - 32px);
+  margin: 20px auto 0;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+
+  @media (min-width: $tablet-breakpoint) {
+    width: calc(100% - 120px);
+    max-width: $content-max-width;
+    gap: 40px;
+  }
+}
+
+.sticker-cell {
+  aspect-ratio: 1;
+  overflow: hidden;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.2s;
+
+  &.dimmed { opacity: 0.4; }
+  &.expanded { transform: scale(1.5); z-index: 1; }
+}
+
+.cover-wrap {
+  width: 120px;
+  height: 120px;
+  margin: 16px auto 0;
+}
+
+.cover-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.sticker-wrapper {
+  width: 100%;
+  height: 100%;
+
+  img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    -webkit-user-drag: none;
+    user-select: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+
+    &.loaded { opacity: 1; }
+  }
+}
+
+.limited-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0 auto;
+  @include jt-headline-small3-bold-18;
+  color: $limited-badge-text;
+}
+
+.bottom-btn-wrap {
+  padding: 16px $margin-phone;
+  padding-bottom: calc(16px + var(--safe-bottom));
+  background-color: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+
+  :deep(button), :deep(a) {
+    max-width: $btn-max-width;
+    width: 100%;
+
+    @media (min-width: $tablet-breakpoint) {
+      width: $btn-max-width;
+    }
+  }
+}
+
+/* 底部按钮由 JtButton 组件统一管理样式 */
+
+// @import '@/ui/res/skeleton_style';
+
+// // ─── 骨架屏占位块尺寸 ──────────────────────────────────
+// .skeleton-cover {
+//   width: 120px;
+//   height: 120px;
+//   border-radius: 28%;
+//   margin: 16px auto 0;
+// }
+
+// .skeleton-title {
+//   width: 160px;
+//   height: 26px;
+//   margin: 20px auto 0;
+// }
+
+// .skeleton-desc {
+//   width: 220px;
+//   height: 14px;
+//   margin: 10px auto 0;
+// }
+
+// .skeleton-grid {
+//   width: calc(100% - 32px);
+//   margin: 24px auto 0;
+//   display: grid;
+//   grid-template-columns: repeat(4, 1fr);
+//   gap: 16px;
+
+//   @media (min-width: $tablet-breakpoint) {
+//     width: calc(100% - 120px);
+//     max-width: $content-max-width;
+//     gap: 40px;
+//   }
+// }
+
+// .skeleton-cell {
+//   aspect-ratio: 1;
+//   border-radius: 12px;
+// }
+
+// .skeleton-btn {
+//   height: 52px;
+//   border-radius: 100px;
+//   width: 100%;
+//   max-width: 360px;
+//   margin: 0 auto;
+// }
+

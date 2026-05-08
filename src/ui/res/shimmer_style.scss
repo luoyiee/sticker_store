@@ -1,0 +1,97 @@
+// ─── 骨架屏 shimmer ──────────────────────────────────────────────────────────
+//
+// 用法：
+//   1. 在页面 scss 中 @import '@/ui/res/shimmer_style';
+//   2. 占位块写法：
+//        <div class="skeleton-block">
+//          <div class="shimmer" :class="{ loaded: isLoaded }"></div>
+//        </div>
+//   3. 图片加载完成后给 .shimmer 加上 .loaded，骨架屏淡出
+//   4. 用 <Transition name="page-fade"> 包裹骨架屏与真实内容做切换
+//
+// 原理：
+//   每个占位块内放一个绝对定位的 .shimmer 层，::after 伪元素作为扫光条带，
+//   通过 translateX 从左向右平移，overflow: hidden 裁掉超出边界的部分。
+//   每个块独立扫光，无需 background-attachment: fixed，也无横竖屏适配问题。
+//
+// 颜色变量（在 color_style.scss 的 :root / .dark 中定义）：
+//   --skeleton-bg         占位块底色   亮色：#EBEBEC  暗色：#353538
+//   --skeleton-shimmer    扫光高亮色   亮色：#FBFBFC  暗色：#424248
+//
+// 可调参数：
+//   速度：2.5s 改大变慢，改小变快
+//   缓动：ease-in-out 改 linear 变匀速
+//   高光宽度：20% / 80% 两端向 50% 靠拢则变窄，远离则变宽
+//   圆角：border-radius 跟着占位图走
+// ────────────────────────────────────────────────────────────────────────────
+
+.shimmer-host {
+  position: relative;
+  border-radius: 28%;
+  overflow: hidden;
+}
+
+.skeleton-block {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: var(--skeleton-bg);
+}
+
+.shimmer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  background: var(--skeleton-bg);
+  transition: opacity 0.2s ease;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -100%;          // 扩大为 3×3，保证斜向扫光全程覆盖占位块
+    background: linear-gradient(
+      135deg,
+      transparent             42%,
+      var(--skeleton-shimmer) 50%,
+      transparent             58%
+    );
+    animation: shimmer-sweep 2.2s infinite ease-in-out;
+  }
+
+  &.loaded {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+.dark .shimmer {
+  background: var(--skeleton-bg);
+
+  &::after {
+    background: linear-gradient(
+      135deg,
+      transparent             42%,
+      var(--skeleton-shimmer) 50%,
+      transparent             58%
+    );
+  }
+}
+
+@keyframes shimmer-sweep {
+  0%   { transform: translate(-67%, -67%); }  // 从左上角外侧扫入
+  100% { transform: translate(67%, 67%);   }  // 扫出右下角外侧
+}
+
+// ─── 骨架屏 ↔ 内容淡入切换 ───────────────────────────────────────────────────
+//
+// 配合 <Transition name="page-fade" mode="out-in"> 使用
+//
+.page-fade-enter-active,
+.page-fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.page-fade-enter-from,
+.page-fade-leave-to {
+  opacity: 0;
+}

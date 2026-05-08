@@ -1,0 +1,156 @@
+@import '@/ui/res/color_style';
+@import '@/ui/res/text_style';
+@import '@/ui/res/layout_style';
+@import '@/ui/res/shimmer_style';
+
+.pack-card {
+  padding: 20px $margin-phone 0;
+
+  @media (min-width: $tablet-breakpoint) {
+    padding: 20px $margin-tablet 0;
+  }
+  cursor: pointer;
+  background-color: var(--bg-color);
+}
+
+.card-header {
+  display: flex;
+}
+
+.info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.name-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+
+.name-row-spacer {
+  flex: 1;
+  min-width: 0;
+  padding-left: 12px;
+}
+
+.premium-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.pack-name {
+  @include jt-headline-small3-bold-18;
+  color: var(--text-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.badge-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 900;
+  line-height: 16px;
+  letter-spacing: 0;
+}
+
+.new-tag {
+  background-color: $new-badge-bg;
+  color: $new-badge-text;
+}
+
+.limited-tag {
+  background-color: $limited-badge-bg;
+  color: $limited-badge-text;
+
+  .dark & {
+    color: #F3702B;
+  }
+}
+
+.added-text {
+  flex-shrink: 0;
+  padding: 4px 8px;
+  @include jt-title-small-bold-14;
+  color: var(--text-color-sub);
+}
+
+.add-btn {
+  flex-shrink: 0;
+  padding: 4px 16px;
+  border-radius: 20px;
+  border: none;
+  background-color: var(--theme-color);
+  color: #fff;
+  @include jt-title-small-bold-14;
+  cursor: pointer;
+  transition: opacity 0.15s;
+
+  &:active { opacity: 0.8; }
+}
+
+.preview-row {
+  display: flex;
+  gap: 16px;
+  margin-top: 19px;
+
+  &.has-badge { margin-top: 16px; }
+
+  @media (min-width: $tablet-breakpoint) {
+    gap: 24px;
+  }
+}
+
+.preview-cell {
+  flex: 1;
+  aspect-ratio: 1;
+
+  &.phone-hidden {
+    display: none;
+
+    @media (min-width: $tablet-breakpoint) {
+      display: block;
+    }
+  }
+}
+
+.sticker-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    -webkit-user-drag: none;
+    user-select: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+
+    &.loaded { opacity: 1; }
+  }
+}
+
+
+.card-divider {
+  height: 1px;
+  background-color: var(--divider-color);
+  margin-top: 20px;
+}

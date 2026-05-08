@@ -1,0 +1,108 @@
+@import '@/ui/res/color_style';
+@import '@/ui/res/text_style';
+@import '@/ui/res/layout_style';
+
+.store-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+.app-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(var(--top-bar-height) + var(--safe-top));
+  padding-top: var(--safe-top);
+  flex-shrink: 0;
+}
+
+.title {
+  @include jt-headline-small2-bold-20;
+  color: var(--text-color);
+}
+
+.pack-list {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: calc(24px + var(--safe-bottom));
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+
+  @media (min-width: $tablet-breakpoint) {
+    > * {
+      max-width: calc(#{$content-max-width} + #{$margin-tablet} * 2);
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+}
+
+
+// // ─── 首页骨架屏占位块尺寸 ─────────────────────────────
+// .skeleton-list {
+//   flex: 1;
+//   overflow: hidden;
+//   padding: 0 $margin-phone calc(24px + var(--safe-bottom));
+
+//   @media (min-width: $tablet-breakpoint) {
+//     padding-left: 0;
+//     padding-right: 0;
+//     > * {
+//       max-width: calc(#{$content-max-width} + #{$margin-tablet} * 2);
+//       margin-left: auto;
+//       margin-right: auto;
+//       padding-left: $margin-tablet;
+//       padding-right: $margin-tablet;
+//       box-sizing: border-box;
+//     }
+//   }
+// }
+
+// .skeleton-card {
+//   padding: 16px 0;
+//   border-bottom: 1px solid var(--divider-color);
+// }
+
+// .skeleton-card-header {
+//   display: flex;
+//   align-items: center;
+//   justify-content: space-between;
+//   margin-bottom: 12px;
+// }
+
+// .skeleton-card-title {
+//   width: 120px;
+//   height: 18px;
+//   border-radius: 6px;
+// }
+
+// .skeleton-card-btn {
+//   width: 56px;
+//   height: 28px;
+//   border-radius: 14px;
+// }
+
+// .skeleton-card-previews {
+//   display: grid;
+//   grid-template-columns: repeat(5, 1fr);
+//   gap: 8px;
+// }
+
+// .skeleton-card-cell {
+//   aspect-ratio: 1;
+//   border-radius: 8px;
+// }
+
+.detail-view {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+}

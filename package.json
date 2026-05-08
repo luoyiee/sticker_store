@@ -1,0 +1,40 @@
+{
+  "name": "sticker-vue",
+  "version": "0.0.5",
+  "versionCode": "2605083",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "amfe-flexible": "^2.2.1",
+    "core-js": "^3.6.5",
+    "dotenv-expand": "^5.1.0",
+    "h5-jsbridge": "^1.0.5",
+    "isexe": "^2.0.0",
+    "vconsole": "^3.15.1",
+    "vue": "^3.2.0",
+    "vue-i18n": "^9.14.5",
+    "vue-router": "^4.0.0",
+    "vuex": "^4.0.0"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-plugin-router": "~5.0.0",
+    "@vue/cli-plugin-vuex": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "@vue/compiler-sfc": "^3.2.0",
+    "@vue/eslint-config-airbnb": "^5.0.2",
+    "babel-eslint": "^10.1.0",
+    "babel-plugin-import": "^1.13.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-vue": "^9.0.0",
+    "postcss": "^8.5.10",
+    "postcss-pxtorem": "^5.1.1",
+    "sass": "^1.26.5",
+    "sass-loader": "^12.0.0"
+  }
+}

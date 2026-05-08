@@ -1,0 +1,98 @@
+
+// ─── 主题色 ──────────────────────────────────────
+$theme-color:      #ff2c55;
+$dark-theme-color: #ef6479;
+
+// ─── 背景色 ──────────────────────────────────────
+$primary-bg-color:        #ffffff;
+$dark-primary-bg-color:   #121212;
+
+$secondary-bg-color:      #f5f5f5;
+$dark-secondary-bg-color: #1e1e1e;
+
+// ─── 文字色 ──────────────────────────────────────
+$primary-text-color:        #262626;
+$dark-primary-text-color:   #ffffff;
+
+$secondary-text-color:      #aaaaaa;
+$dark-secondary-text-color: #ffffffb3;
+
+// ─── 分割线 ──────────────────────────────────────
+$divider-color:      #f1f1f1;
+$dark-divider-color: #333333;
+
+// ─── 功能色 ──────────────────────────────────────
+$premium-gold: #ffb800;
+$free-green:   #30d270;
+
+// ─── 按钮 ────────────────────────────────────────
+$btn-bg:       #1a1a1a;
+$dark-btn-bg:  #ffffff;
+
+$btn-text:     #ffffff;
+$dark-btn-text: #000000;
+
+$btn-secondary-bg:      #99999933;
+$dark-btn-secondary-bg: #cccccc40;
+
+$btn-spinner-border: #ffffff59;
+
+$btn-disabled-bg:      #4f4f4f66;
+$dark-btn-disabled-bg: #FFFFFF1F;
+
+$btn-disabled-text:      #00000061;
+$dark-btn-disabled-text: #ffffff61;
+
+// ─── 标签（Tab） ──────────────────────────────────
+$tag-border:      #dddddd;
+$dark-tag-border: #ffffff26;
+
+$tab-selected-bg:      #1a1a1a;
+$dark-tab-selected-bg: #ffffff;
+
+$tab-selected-text:      #ffffff;
+$dark-tab-selected-text: #000000;
+
+// ─── 对话框 ──────────────────────────────────────
+$dialog-bg:      #ffffff;
+$dark-dialog-bg: #333333;
+
+$dialog-cancel-text:      #aaaaaa;
+$dark-dialog-cancel-text: #ffffffb3;
+
+$dialog-cancel-bg:      #99999933;
+$dark-dialog-cancel-bg: #cccccc40;
+
+// ─── 徽标色 ─────────────────────────────────────
+$new-badge-bg:       #d1fae5;
+$new-badge-text:     #079669;
+$limited-badge-bg:   #FFEDD5;
+$limited-badge-text: #ea580b;
+
+// ─── CSS 变量（自动跟随 .dark 切换）────────────────
+:root {
+  --bg-color:           #{$primary-bg-color};
+  --bg-color-secondary: #{$secondary-bg-color};
+  --text-color:         #{$primary-text-color};
+  --text-color-sub:     #{$secondary-text-color};
+  --divider-color:      #{$divider-color};
+  --theme-color:        #{$theme-color};
+  --btn-disabled-bg:    #{$btn-disabled-bg};
+  --btn-disabled-text:  #{$btn-disabled-text};
+  --skeleton-bg:        #ebebec;
+  --skeleton-shimmer:   #ffffffcc;
+}
+
+.dark {
+  --bg-color:           #{$dark-primary-bg-color};
+  --bg-color-secondary: #{$dark-secondary-bg-color};
+  --text-color:         #{$dark-primary-text-color};
+  --text-color-sub:     #{$dark-secondary-text-color};
+  --divider-color:      #{$dark-divider-color};
+  --theme-color:        #{$dark-theme-color};
+  --btn-disabled-bg:    #{$dark-btn-disabled-bg};
+  --btn-disabled-text:  #{$dark-btn-disabled-text};
+  --skeleton-bg:        #353538;
+  --skeleton-shimmer:   #ffffff0f;
+}
+
