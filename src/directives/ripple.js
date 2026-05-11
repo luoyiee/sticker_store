@@ -49,6 +49,9 @@ export const vRipple = {
     el.style.setProperty('--mdc-ripple-hover-opacity', '0')
     el.style.setProperty('--mdc-ripple-focus-opacity', '0')
 
+    // 在 MDCRipple 初始化前注册，disabled 时阻断后续所有监听器（包括 MDCRipple 内部的）
+    el.addEventListener('pointerdown', (e) => { if (el.disabled) e.stopImmediatePropagation() }, { capture: true })
+
     const ripple = new MDCRipple(el)
     el._ripple = ripple
 

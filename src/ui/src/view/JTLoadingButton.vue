@@ -40,6 +40,7 @@ defineEmits(['click'])
   cursor: pointer;
   transition: opacity 0.15s;
   -webkit-tap-highlight-color: transparent;
+  &:disabled { pointer-events: none; }
 
 
   // ── primary（主按钮，红色） ──────────────────────
