@@ -4,7 +4,7 @@
 import { onMounted, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useI18n } from 'vue-i18n'
-import { finishWeb } from '@/jsBridge'
+import { finishWeb } from '@/manager/jsBridgeManager'
 import { showCommonDialog } from '@/ui'
 import config from '@/config'
 

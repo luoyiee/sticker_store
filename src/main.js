@@ -3,9 +3,11 @@ import App from './App.vue'
 import router, { setupRouterTitle } from './router'
 import store from './store'
 import i18n, { toLocaleKey } from './res/string'
+import { vRipple } from './directives/ripple'
 
 const app = createApp(App)
 app.use(router).use(store).use(i18n)
+app.directive('ripple', vRipple)
 
 setupRouterTitle(i18n)
 

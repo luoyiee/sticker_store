@@ -28,7 +28,7 @@ import { ref, computed, watch } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter, useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { addStickerPack, openMembership } from '@/jsBridge'
+import { addStickerPack, openMembership } from '@/manager/jsBridgeManager'
 import StickerPackCard from '@/components/StickerPackCard.vue'
 
 const store = useStore()

@@ -2,10 +2,8 @@
 import JsBridge from 'h5-jsbridge'
 import config from '@/config'
 import { getWebviewInfo } from '@/utils'
-import { traceSnapshot } from '@/utils/trackerManager'
+import { traceSnapshot } from '@/manager/trackerManager'
 
-const { projectName } = config
-const h5Name = `h5-${projectName}`
 
 function _callHandler(handlerName, data, callback) {
   const { inJusTalk } = getWebviewInfo()
@@ -54,7 +52,7 @@ export function logEvent(eventName, keyAndValues) {
 
 export function getAddedStickerPacks() {
   return new Promise((resolve) => {
-    _callHandler('jtJsToApp', { action: 'getAddedStickerPacks', from: h5Name }, (data) => {
+    _callHandler('jtJsToApp', { action: 'getAddedStickerPacks' }, (data) => {
       console.log('getAddedStickerPacks response:', data)
       try {
         const result = typeof data === 'string' ? JSON.parse(data) : data
@@ -113,6 +111,17 @@ export function registerMembershipChanged(callback) {
     const premiumDue = parseInt(data.premiumDue) || 0
     callback(premiumDue > config.serverNowMs())
   }
+}
+
+export function initVConsole(isTestMode) {
+  if (!isTestMode || isTestMode === '0' || isTestMode === 'false') return
+  if (typeof VConsole !== 'undefined') {
+    window.vConsole = new VConsole()
+  }
+}
+
+export function markSceneRead() {
+  _callHandler('jtJsToApp', { action: 'markSceneRead', scene: 'sticker' })
 }
 
 export function openMembership() {

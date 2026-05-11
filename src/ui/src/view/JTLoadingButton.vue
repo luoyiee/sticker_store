@@ -1,5 +1,6 @@
 <template>
   <button
+    v-ripple="isDark ? { color: '#ffffff', pressOpacity: 0.10 } : { color: '#ffffff', pressOpacity: 0.20 }"
     class="jt-btn"
     :class="[`jt-btn--${variant}`, { 'jt-btn--loading': loading, 'is-dark': isDark }]"
     :disabled="disabled || loading"
@@ -40,7 +41,6 @@ defineEmits(['click'])
   transition: opacity 0.15s;
   -webkit-tap-highlight-color: transparent;
 
-  &:active:not(:disabled) { opacity: 0.75; }
 
   // ── primary（主按钮，红色） ──────────────────────
   &--primary {

@@ -8,8 +8,8 @@
 import { computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-import { initWeb, loadingSuccess, registerSafeBarChanged, registerMembershipChanged, getAddedStickerPacks } from './jsBridge'
-import { replaceTraceData, initVConsole } from './utils/trackerManager'
+import * as jsBridgeManager from './manager/jsBridgeManager'
+import * as trackerManager from './manager/trackerManager'
 import { getWebviewInfo } from './utils'
 import { initTabletDetection } from '@/ui'
 import config from './config'
@@ -38,14 +38,14 @@ if (window.matchMedia) {
 
   let webData = null
   try {
-    webData = await initWeb()
-    initVConsole(webData && webData.isTestMode)
+    webData = await jsBridgeManager.initWeb()
+    jsBridgeManager.initVConsole(webData && webData.isTestMode)
     console.log('[initWeb]', JSON.stringify(webData))
     console.log('[App] version', process.env.VUE_APP_VERSION)
 if (webData && webData.product) config.setAppType(webData.product)
     if (webData && webData.theme === 'dark') store.commit('SET_DARK', true)
     if (webData && webData.language) store.commit('SET_LANG', webData.language.slice(0, 2))
-    if (webData && webData.traceData) replaceTraceData(webData.traceData)
+    if (webData && webData.traceData) trackerManager.replaceTraceData(webData.traceData)
 
     // 对齐 Flutter pxToDp：App 发来的都是物理像素，需除以 dpr 转为 CSS px
     const dpr = window.devicePixelRatio || 1
@@ -65,14 +65,14 @@ if (webData && webData.product) config.setAppType(webData.product)
     }
 
     // 监听安全区动态变化
-    registerSafeBarChanged((updated) => {
+    jsBridgeManager.registerSafeBarChanged((updated) => {
       store.commit('SET_SAFE_AREA', updated)
       if (updated.top) document.documentElement.style.setProperty('--safe-top', `${updated.top}px`)
       if (updated.bottom) document.documentElement.style.setProperty('--safe-bottom', `${updated.bottom}px`)
     })
 
     // 初始化会员状态（任意会员类型有效即为会员）
-    const now = Date.now()
+    const now = config.serverNowMs()
     const isPremiumUser = [
       webData?.premiumDue,
       webData?.familyDue,
@@ -83,20 +83,21 @@ if (webData && webData.product) config.setAppType(webData.product)
     store.commit('SET_USER_PREMIUM', isPremiumUser)
 
     // 监听会员变化（用户购买后 App 推送 getExpireDate）
-    registerMembershipChanged((isPremium) => {
+    jsBridgeManager.registerMembershipChanged((isPremium) => {
       store.commit('SET_USER_PREMIUM', isPremium)
     })
 
     const jsBridgeVersion = parseInt(webData && webData.jsBridgeVersion) || 0
     if (jsBridgeVersion < config.minSupportVersion) {
-      loadingSuccess()
+      jsBridgeManager.loadingSuccess()
       router.replace('/unsupported')
       return
     }
   } catch { /* 非 App 环境忽略 */ }
   await store.dispatch('loadPacks')
-  loadingSuccess()
-  getAddedStickerPacks().then(addedIds => {
+  jsBridgeManager.loadingSuccess()
+  jsBridgeManager.markSceneRead()
+  jsBridgeManager.getAddedStickerPacks().then(addedIds => {
     if (addedIds && addedIds.length) store.dispatch('initAddedIds', addedIds)
   })
   // URL 带 page=detail&packId=xxx 时直接落地详情页

@@ -60,7 +60,7 @@ import { ref, computed, watch, reactive } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { addStickerPack, openMembership } from '@/jsBridge'
+import { addStickerPack, openMembership } from '@/manager/jsBridgeManager'
 import { JTLoadingButton, JTImageLibrary } from '@/ui'
 
 const store = useStore()

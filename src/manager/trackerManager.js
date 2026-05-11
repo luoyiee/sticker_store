@@ -12,10 +12,3 @@ export function traceSnapshot() {
 export function getTraceId() {
   return _traceData.traceId || ''
 }
-
-export function initVConsole(isTestMode) {
-  if (!isTestMode || isTestMode === '0' || isTestMode === 'false') return
-  if (typeof VConsole !== 'undefined') {
-    window.vConsole = new VConsole()
-  }
-}

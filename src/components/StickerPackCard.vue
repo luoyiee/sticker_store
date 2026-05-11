@@ -7,7 +7,7 @@
           <img v-if="pack.isPremium" class="premium-icon" :src="premiumIcon" alt="premium" />
           <span class="name-row-spacer" />
           <span v-if="pack.isAdded" class="added-text">{{ t('added') }}</span>
-          <button v-else class="add-btn" @click.stop="onAdd">{{ t('add') }}</button>
+          <button v-else v-ripple="isDark ? { color: '#ffffff', pressOpacity: 0.10 } : { color: '#ffffff', pressOpacity: 0.20 }" class="add-btn" @click.stop="onAdd">{{ t('add') }}</button>
         </div>
         <div v-if="pack.isNew || pack.isLimitedFree" class="badge-row">
           <span v-if="pack.isNew" class="tag new-tag">{{ t('tagNew') }}</span>

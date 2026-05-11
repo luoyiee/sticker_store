@@ -1,7 +1,7 @@
 {
   "name": "sticker-vue",
-  "version": "0.0.5",
-  "versionCode": "2605083",
+  "version": "0.0.6",
+  "versionCode": "2605111",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -9,6 +9,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@material/ripple": "^14.0.0",
     "amfe-flexible": "^2.2.1",
     "core-js": "^3.6.5",
     "dotenv-expand": "^5.1.0",
