@@ -1,5 +1,9 @@
 const appConfig = {
   minSupportVersion: 3,
+
+  sceneVersion: '1',
+  scene: 'sticker',
+
   updateUrl: 'https://www.justalk.com/dl',
   appType: '',
   setAppType(type) { appConfig.appType = type },

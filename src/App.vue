@@ -96,7 +96,7 @@ if (webData && webData.product) config.setAppType(webData.product)
   } catch { /* 非 App 环境忽略 */ }
   await store.dispatch('loadPacks')
   jsBridgeManager.loadingSuccess()
-  jsBridgeManager.markSceneRead()
+  jsBridgeManager.reportSceneVersion()
   jsBridgeManager.getAddedStickerPacks().then(addedIds => {
     if (addedIds && addedIds.length) store.dispatch('initAddedIds', addedIds)
   })

@@ -120,8 +120,10 @@ export function initVConsole(isTestMode) {
   }
 }
 
-export function markSceneRead() {
-  _callHandler('jtJsToApp', { action: 'markSceneRead', scene: 'sticker' })
+export function reportSceneVersion() {
+  const scene = config.scene
+  const version = config.sceneVersion
+  _callHandler('jtJsToApp', { action: 'reportSceneVersion', scene, version })
 }
 
 export function openMembership() {
