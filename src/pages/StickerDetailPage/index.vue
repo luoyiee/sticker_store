@@ -5,9 +5,9 @@
 
       <!-- 封面 -->
       <div class="cover-wrap">
-        <div v-if="coverSticker" class="sticker-wrapper cover-wrapper shimmer-host">
+        <div v-if="coverUrl" class="sticker-wrapper cover-wrapper shimmer-host">
           <div class="shimmer" :class="{ loaded: loadedMap['cover'] }" />
-          <img :ref="el => loadSticker(el, coverSticker?.fileUrl, 'cover')" :src="placeholderSrc" class="cover-img" :class="{ loaded: loadedMap['cover'] }" alt="cover" />
+          <img :ref="el => loadSticker(el, coverUrl, 'cover')" :src="placeholderSrc" class="cover-img" :class="{ loaded: loadedMap['cover'] }" alt="cover" />
         </div>
       </div>
 
@@ -26,14 +26,14 @@
       <div v-if="pack" class="sticker-grid">
         <div
           v-for="(sticker, i) in pack.items"
-          :key="sticker.stickerId"
+          :key="sticker.itemId"
           class="sticker-cell"
           :class="{ dimmed: expandedIndex !== null && expandedIndex !== i, expanded: expandedIndex === i }"
           @click="onStickerTap(i)"
         >
           <div class="sticker-wrapper shimmer-host">
             <div class="shimmer" :class="{ loaded: loadedMap[i] }" />
-            <img :ref="el => loadSticker(el, sticker.fileUrl, i)" :src="placeholderSrc" :alt="sticker.stickerId" :class="{ loaded: loadedMap[i] }" />
+            <img :ref="el => loadSticker(el, sticker.fileUrl, i)" :src="placeholderSrc" :alt="sticker.itemId" :class="{ loaded: loadedMap[i] }" />
           </div>
         </div>
       </div>
@@ -72,11 +72,11 @@ const pendingPremiumAdd = ref(false)
 const coverReady = ref(false)
 
 const isDark = computed(() => store.state.isDark)
-const pack = computed(() => store.getters.localizedPacks.find(p => p.packId === route.params.packId) ?? null)
-const coverSticker = computed(() => pack.value?.items?.[0] ?? null)
+const pack = computed(() => store.getters.localizedPacks.find(p => p.contentId === route.params.contentId) ?? null)
+const coverUrl = computed(() => pack.value?.coverUrl ?? null)
 
-watch(coverSticker, (sticker) => {
-  if (sticker !== undefined) coverReady.value = true
+watch(coverUrl, (url) => {
+  if (url !== undefined) coverReady.value = true
 }, { immediate: true })
 const premiumIcon = JTImageLibrary.premiumIcon(store.state.isDark)
 const placeholderSrc = computed(() => JTImageLibrary.placeholder(isDark.value))
@@ -104,7 +104,7 @@ async function onAddClick() {
     return
   }
   const ok = await addStickerPack(pack.value)
-  if (ok) store.dispatch('markAdded', pack.value.packId)
+  if (ok) store.dispatch('markAdded', pack.value.contentId)
 }
 
 // 用户购买会员后自动添加
@@ -112,7 +112,7 @@ watch(() => store.state.isPremiumUser, async (isPremium) => {
   if (!isPremium || !pendingPremiumAdd.value || !pack.value || pack.value.isAdded) return
   pendingPremiumAdd.value = false
   const ok = await addStickerPack(pack.value)
-  if (ok) store.dispatch('markAdded', pack.value.packId)
+  if (ok) store.dispatch('markAdded', pack.value.contentId)
 })
 </script>
 

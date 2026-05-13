@@ -1,7 +1,7 @@
 {
   "name": "sticker-vue",
   "version": "0.0.6",
-  "versionCode": "2605111",
+  "versionCode": "2605122",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",

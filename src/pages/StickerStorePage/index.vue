@@ -13,7 +13,7 @@
     <div v-show="appReady" class="pack-list">
       <sticker-pack-card
         v-for="pack in filteredPacks"
-        :key="pack.packId"
+        :key="pack.contentId"
         :pack="pack"
         :is-dark="isDark"
         @click="goDetail(pack)"
@@ -52,27 +52,27 @@ const filteredPacks = computed(() => store.getters.filteredPacks)
 const pendingPremiumPackId = ref(null)
 
 function goDetail(pack) {
-  router.push(`/detail/${pack.packId}`)
+  router.push(`/detail/${pack.contentId}`)
 }
 
 async function onAdd(pack) {
   if (pack.isPremium && !store.state.isPremiumUser) {
-    pendingPremiumPackId.value = pack.packId
+    pendingPremiumPackId.value = pack.contentId
     openMembership()
     return
   }
   const ok = await addStickerPack(pack)
-  if (ok) store.dispatch('markAdded', pack.packId)
+  if (ok) store.dispatch('markAdded', pack.contentId)
 }
 
 watch(() => store.state.isPremiumUser, async (isPremium) => {
   if (!isPremium || !pendingPremiumPackId.value) return
-  const packId = pendingPremiumPackId.value
+  const contentId = pendingPremiumPackId.value
   pendingPremiumPackId.value = null
-  const pack = store.getters.localizedPacks.find(p => p.packId === packId)
+  const pack = store.getters.localizedPacks.find(p => p.contentId === contentId)
   if (!pack || pack.isAdded) return
   const ok = await addStickerPack(pack)
-  if (ok) store.dispatch('markAdded', pack.packId)
+  if (ok) store.dispatch('markAdded', pack.contentId)
 })
 </script>
 

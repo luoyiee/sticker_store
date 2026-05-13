@@ -65,7 +65,7 @@ export function getAddedStickerPacks() {
 }
 
 export function addStickerPack(pack) {
-  console.log(`addStickerPack packId=${pack.packId}`)
+  console.log(`addStickerPack contentId=${pack.contentId}`)
   return new Promise((resolve) => {
     _callHandler('jtJsToApp', {
       action: 'addStickerPack',

@@ -1,6 +1,6 @@
 import { createStore } from 'vuex'
 import { localizedText, detectLang } from '@/utils'
-import stickerPacks from '@/assets/sticker_packs.json'
+import stickerPacks from '@/assets/generated_sticker_packs.json'
 
 export default createStore({
   state: {
@@ -21,7 +21,7 @@ export default createStore({
         ...p,
         packName: localizedText(p.names, state.lang),
         description: localizedText(p.descriptions, state.lang),
-        isAdded: state.addedPackIds.has(p.packId),
+        isAdded: state.addedPackIds.has(p.contentId),
         isNew: p.tags.includes('new'),
         isFree: p.tags.includes('free') || p.tags.includes('limitedFree'),
         isPremium: p.tags.includes('paid'),
@@ -42,9 +42,9 @@ export default createStore({
     SET_ADDED_IDS(state, ids) {
       state.addedPackIds = new Set(ids)
     },
-    ADD_PACK_ID(state, packId) {
+    ADD_PACK_ID(state, contentId) {
       const next = new Set(state.addedPackIds)
-      next.add(packId)
+      next.add(contentId)
       state.addedPackIds = next
     },
     SET_FILTER(state, index) {
@@ -77,8 +77,8 @@ export default createStore({
     initAddedIds({ commit }, ids) {
       commit('SET_ADDED_IDS', ids)
     },
-    markAdded({ commit }, packId) {
-      commit('ADD_PACK_ID', packId)
+    markAdded({ commit }, contentId) {
+      commit('ADD_PACK_ID', contentId)
     },
   },
 })

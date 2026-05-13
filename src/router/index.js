@@ -11,7 +11,7 @@ const router = createRouter({
       component: StickerStore,
       meta: { titleKey: 'homeTitle' },
       children: [
-        { path: 'detail/:packId', component: StickerDetail },
+        { path: 'detail/:contentId', component: StickerDetail },
       ],
     },
     { path: '/unsupported', component: UpdateDialog },

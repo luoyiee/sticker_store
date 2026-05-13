@@ -100,16 +100,16 @@ if (webData && webData.product) config.setAppType(webData.product)
   jsBridgeManager.getAddedStickerPacks().then(addedIds => {
     if (addedIds && addedIds.length) store.dispatch('initAddedIds', addedIds)
   })
-  // URL 带 page=detail&packId=xxx 时直接落地详情页
+  // URL 带 page=detail&contentId=xxx 时直接落地详情页
   const params = new URLSearchParams(window.location.search)
-  console.log('[App] page param:', params.get('page'), 'packId:', params.get('packId'))
+  console.log('[App] page param:', params.get('page'), 'contentId:', params.get('contentId'))
   if (params.get('page') === 'detail') {
-    const packId = params.get('packId')
-    const exists = store.getters.localizedPacks.some(p => p.packId == packId)
-    console.log('[App] packId:', packId, 'exists:', exists, 'packs count:', store.getters.localizedPacks.length)
-    if (packId && exists) {
+    const contentId = params.get('contentId')
+    const exists = store.getters.localizedPacks.some(p => p.contentId == contentId)
+    console.log('[App] contentId:', contentId, 'exists:', exists, 'packs count:', store.getters.localizedPacks.length)
+    if (contentId && exists) {
       await router.replace('/')
-      await router.push({ path: `/detail/${packId}`, state: { noAnimation: true } })
+      await router.push({ path: `/detail/${contentId}`, state: { noAnimation: true } })
     }
   }
   store.commit('SET_APP_READY')
