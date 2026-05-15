@@ -29,6 +29,7 @@ import { useStore } from 'vuex'
 import { useRouter, useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { addStickerPack, openMembership } from '@/manager/jsBridgeManager'
+import { trackContentClick, trackContentAdd, trackContentPurchase, trackContentPurchaseOK } from '@/manager/trackerManager'
 import StickerPackCard from '@/components/StickerPackCard.vue'
 
 const store = useStore()
@@ -52,25 +53,29 @@ const filteredPacks = computed(() => store.getters.filteredPacks)
 const pendingPremiumPackId = ref(null)
 
 function goDetail(pack) {
+  trackContentClick({ contentId: pack.contentId, payType: pack.payType })
   router.push(`/detail/${pack.contentId}`)
 }
 
 async function onAdd(pack) {
-  if (pack.isPremium && !store.state.isPremiumUser) {
+  if (pack.payType === 'paid' && !store.state.isVip) {
     pendingPremiumPackId.value = pack.contentId
-    openMembership()
+    trackContentPurchase({ contentId: pack.contentId, downloadFrom: 'list' })
+    openMembership(pack)
     return
   }
+  trackContentAdd({ contentId: pack.contentId, payType: pack.payType, downloadFrom: 'list' })
   const ok = await addStickerPack(pack)
   if (ok) store.dispatch('markAdded', pack.contentId)
 }
 
-watch(() => store.state.isPremiumUser, async (isPremium) => {
-  if (!isPremium || !pendingPremiumPackId.value) return
+watch(() => store.state.isVip, async (isVip) => {
+  if (!isVip || !pendingPremiumPackId.value) return
   const contentId = pendingPremiumPackId.value
   pendingPremiumPackId.value = null
   const pack = store.getters.localizedPacks.find(p => p.contentId === contentId)
   if (!pack || pack.isAdded) return
+  trackContentPurchaseOK({ contentId: pack.contentId, downloadFrom: 'list', type: store.state.type })
   const ok = await addStickerPack(pack)
   if (ok) store.dispatch('markAdded', pack.contentId)
 })

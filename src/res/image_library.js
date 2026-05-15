@@ -4,8 +4,8 @@ const _svgNight = require.context('@/assets/svg-night', false, /\.svg$/)
 function svg(name) { return _svg(`./${name}.svg`) }
 function svgNight(name) { return _svgNight(`./${name}.svg`) }
 
-const _icPlaceholder = svg('ic_placeholder')
-const _icPlaceholderNight = svgNight('ic_placeholder')
+const _icPlaceholder = require('@/assets/images/sticker_placeholder.webp')
+const _icPlaceholderNight = require('@/assets/images-night/sticker_placeholder.webp')
 
 const _icPremiumTalk = svg('ic_premium_talk')
 const _icPremiumTalkNight = svgNight('ic_premium_talk')

@@ -108,8 +108,21 @@ export function registerSafeBarChanged(callback) {
 export function registerMembershipChanged(callback) {
   _ensureAppToJsDispatcher()
   _appToJsHandlers['getExpireDate'] = (data) => {
-    const premiumDue = parseInt(data.premiumDue) || 0
-    callback(premiumDue > config.serverNowMs())
+    const now = config.serverNowMs()
+    const dues = [
+      { key: 'platinumFamilyOwnerDue',  type: 'platinumFamily' },
+      { key: 'platinumFamilyMemberDue', type: 'platinumFamily' },
+      { key: 'myFamilyDue',             type: 'family' },
+      { key: 'familyOwnerDue',          type: 'family' },
+      { key: 'familyDue',               type: 'family' },
+      { key: 'kidsPremiumDue',          type: 'kidsPremium' },
+      { key: 'premiumDue',              type: 'premium' },
+      { key: 'plusDue',                 type: 'plus' },
+      { key: 'educationDue',            type: 'edu' },
+    ]
+    const isVip = dues.some(({ key }) => (parseInt(data[key]) || 0) > now)
+    const type = dues.find(({ key }) => (parseInt(data[key]) || 0) > now)?.type ?? ''
+    callback(isVip, type)
   }
 }
 
@@ -126,11 +139,11 @@ export function reportSceneVersion() {
   _callHandler('jtJsToApp', { action: 'reportSceneVersion', scene, version })
 }
 
-export function openMembership() {
+export function openMembership(pack) {
+  const extra = pack ? { contentType: 'sticker', contentId: pack.contentId, payType: pack.payType } : {}
   _callHandler('jtJsToApp', JSON.stringify({
     action: 'resolveVipAccess',
-//    type: 'premium',
-//    benefitId: 'stickers',
-    traceData: traceSnapshot(),
+    'benefitId': 'stickers',
+    traceData: { ...traceSnapshot(), ...extra },
   }))
 }

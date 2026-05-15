@@ -22,6 +22,7 @@
   &::-webkit-scrollbar { display: none; }
   text-align: center;
   padding-top: calc(var(--top-bar-height) + var(--safe-top));
+  padding-bottom: 8px;
 }
 
 .cover-wrap {
@@ -94,6 +95,8 @@
   overflow: hidden;
   cursor: pointer;
   transition: opacity 0.15s, transform 0.2s;
+  content-visibility: auto;
+  contain-intrinsic-size: 100px 100px;
 
   &.dimmed { opacity: 0.4; }
   &.expanded { transform: scale(1.5); z-index: 1; }
@@ -108,7 +111,30 @@
 .cover-wrapper {
   width: 100%;
   height: 100%;
+
+  // .shimmer::after {
+  //   inset: unset;
+  //   position: absolute;
+  //   width: 350%;
+  //   height: 350%;
+  //   top: -125%;
+  //   left: -125%;
+  //   background: linear-gradient(
+  //     135deg,
+  //     #FBFBFC00 0%,
+  //     #FBFBFC1A 30%,
+  //     #FBFBFCB3 50%,
+  //     #FBFBFC1A 70%,
+  //     #FBFBFC00 100%
+  //   );
+  //   animation: cover-shimmer-sweep 2s linear infinite;
+  // }
 }
+
+// @keyframes cover-shimmer-sweep {
+//   from { transform: translate(-45%, -45%); }
+//   to   { transform: translate(45%, 45%); }
+// }
 
 .sticker-wrapper {
   width: 100%;
@@ -122,10 +148,7 @@
     object-fit: contain;
     -webkit-user-drag: none;
     user-select: none;
-    opacity: 0;
-    transition: opacity 0.2s ease;
-
-    &.loaded { opacity: 1; }
+    opacity: 1;
   }
 }
 

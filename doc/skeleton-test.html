@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skeleton Shimmer Test</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: sans-serif;
+      padding: 40px;
+      background: #f0f0f0;
+    }
+
+    h2 {
+      margin-bottom: 16px;
+      font-size: 14px;
+      color: #666;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .section {
+      margin-bottom: 48px;
+    }
+
+    /* ── 亮色模式 ── */
+    :root {
+      --skeleton-bg: #EBEBEC;
+      --skeleton-shimmer: #FBFBFC;
+    }
+
+    /* ── 暗色模式 ── */
+    .dark {
+      --skeleton-bg: #353538;
+      --skeleton-shimmer: #424248;
+    }
+
+    /* ── 骨架块 ── */
+    .skeleton-block {
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      background-color: var(--skeleton-bg);
+    }
+
+    /* ── 图片占位（圆角28%） ── */
+    .shimmer-host {
+      position: relative;
+      border-radius: 28%;
+      overflow: hidden;
+      background-color: var(--skeleton-bg);
+    }
+
+    /* ── shimmer 层（与两个动画效果一致：宽光带 + linear） ── */
+    .shimmer {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      border-radius: inherit;
+      background: var(--skeleton-bg);
+      transition: opacity 0.2s ease;
+    }
+
+    .shimmer::after {
+      content: '';
+      position: absolute;
+      inset: -100%;
+      background: linear-gradient(
+        135deg,
+        transparent              30%,
+        var(--skeleton-shimmer)  50%,
+        transparent              70%
+      );
+      animation: shimmer-sweep 2s infinite linear;
+    }
+
+    .shimmer.loaded {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    @keyframes shimmer-sweep {
+      0%   { transform: translate(-67%, -67%); }
+      100% { transform: translate(67%, 67%); }
+    }
+
+    /* ── 布局示例（卡片行，暂不展示） ── */
+    .card {
+      display: flex;
+      gap: 12px;
+      padding: 16px;
+      border-radius: 12px;
+      width: 360px;
+    }
+
+    .card.light { background: #fff; }
+    .card.dark-card { background: #2a2a2d; }
+
+    .card-thumb {
+      flex-shrink: 0;
+      width: 72px;
+      height: 72px;
+    }
+
+    .card-lines {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .line-long  { height: 14px; width: 100%; }
+    .line-short { height: 12px; width: 60%; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 72px);
+      gap: 12px;
+    }
+
+    .grid-item {
+      width: 72px;
+      height: 72px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── 亮色 ── -->
+  <!-- 卡片行示例（暂不展示）
+  <div class="section">
+    <h2>亮色模式</h2>
+    <div class="card light">
+      <div class="card-thumb shimmer-host">
+        <div class="shimmer"></div>
+      </div>
+      <div class="card-lines">
+        <div class="skeleton-block line-long">
+          <div class="shimmer"></div>
+        </div>
+        <div class="skeleton-block line-short">
+          <div class="shimmer"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  -->
+
+  <div class="section">
+    <h2>亮色模式 — 贴图格子</h2>
+    <div class="grid">
+      <div class="grid-item shimmer-host"><div class="shimmer"></div></div>
+      <div class="grid-item shimmer-host"><div class="shimmer"></div></div>
+      <div class="grid-item shimmer-host"><div class="shimmer"></div></div>
+      <div class="grid-item shimmer-host"><div class="shimmer"></div></div>
+      <div class="grid-item shimmer-host"><div class="shimmer"></div></div>
+      <div class="grid-item shimmer-host"><div class="shimmer"></div></div>
+      <div class="grid-item shimmer-host"><div class="shimmer"></div></div>
+      <div class="grid-item shimmer-host"><div class="shimmer"></div></div>
+    </div>
+  </div>
+
+  <!-- ── 暗色 ── -->
+  <div class="dark" style="background:#1a1a1a; padding: 24px; border-radius: 16px; display: inline-block;">
+    <!-- 暗色卡片行示例（暂不展示）
+    <div class="section" style="margin-bottom: 32px;">
+      <h2 style="color:#888">暗色模式</h2>
+      <div class="card dark-card">
+        <div class="card-thumb shimmer-host">
+          <div class="shimmer"></div>
+        </div>
+        <div class="card-lines">
+          <div class="skeleton-block line-long">
+            <div class="shimmer"></div>
+          </div>
+          <div class="skeleton-block line-short">
+            <div class="shimmer"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    -->
+
+    <div class="section" style="margin-bottom: 0;">
+      <h2 style="color:#888">暗色模式 — 贴图格子</h2>
+      <div class="grid">
+        <div class="grid-item shimmer-host"><div class="shimmer"></div></div>
+        <div class="grid-item shimmer-host"><div class="shimmer"></div></div>
+        <div class="grid-item shimmer-host"><div class="shimmer"></div></div>
+        <div class="grid-item shimmer-host"><div class="shimmer"></div></div>
+        <div class="grid-item shimmer-host"><div class="shimmer"></div></div>
+        <div class="grid-item shimmer-host"><div class="shimmer"></div></div>
+        <div class="grid-item shimmer-host"><div class="shimmer"></div></div>
+        <div class="grid-item shimmer-host"><div class="shimmer"></div></div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

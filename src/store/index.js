@@ -12,26 +12,28 @@ export default createStore({
     isTablet: false,
     safeBarTop: 0,
     safeBarBottom: 0,
-    isPremiumUser: false,
+    isVip: false,
+    type: '',
     appReady: false,
   },
   getters: {
     localizedPacks(state) {
-      return state.packs.map(p => ({
-        ...p,
-        packName: localizedText(p.names, state.lang),
-        description: localizedText(p.descriptions, state.lang),
-        isAdded: state.addedPackIds.has(p.contentId),
-        isNew: p.tags.includes('new'),
-        isFree: p.tags.includes('free') || p.tags.includes('limitedFree'),
-        isPremium: p.tags.includes('paid'),
-        isLimitedFree: p.tags.includes('limitedFree'),
-      }))
+      return state.packs.map(p => {
+        const payType = p.tags.includes('limitedFree') ? 'limitedFree' : p.tags.includes('paid') ? 'paid' : 'free'
+        return {
+          ...p,
+          packName: localizedText(p.names, state.lang),
+          description: localizedText(p.descriptions, state.lang),
+          isAdded: state.addedPackIds.has(p.contentId),
+          isNew: p.tags.includes('new'),
+          payType,
+        }
+      })
     },
     filteredPacks(state, getters) {
       const { filterIndex } = state
-      if (filterIndex === 1) return getters.localizedPacks.filter(p => p.isFree)
-      if (filterIndex === 2) return getters.localizedPacks.filter(p => p.isPremium)
+      if (filterIndex === 1) return getters.localizedPacks.filter(p => p.payType !== 'paid')
+      if (filterIndex === 2) return getters.localizedPacks.filter(p => p.payType === 'paid')
       return getters.localizedPacks
     },
   },
@@ -63,8 +65,9 @@ export default createStore({
       if (top != null) state.safeBarTop = top
       if (bottom != null) state.safeBarBottom = bottom
     },
-    SET_USER_PREMIUM(state, val) {
-      state.isPremiumUser = val
+    SET_USER_PREMIUM(state, { isVip, type } = {}) {
+      state.isVip = isVip ?? false
+      if (type != null) state.type = type
     },
     SET_APP_READY(state) {
       state.appReady = true

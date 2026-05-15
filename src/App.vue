@@ -13,6 +13,7 @@ import * as trackerManager from './manager/trackerManager'
 import { getWebviewInfo } from './utils'
 import { initTabletDetection } from '@/ui'
 import config from './config'
+import { v4 as uuidv4 } from 'uuid'
 
 const store = useStore()
 const router = useRouter()
@@ -45,7 +46,9 @@ if (window.matchMedia) {
 if (webData && webData.product) config.setAppType(webData.product)
     if (webData && webData.theme === 'dark') store.commit('SET_DARK', true)
     if (webData && webData.language) store.commit('SET_LANG', webData.language.slice(0, 2))
-    if (webData && webData.traceData) trackerManager.replaceTraceData(webData.traceData)
+    const traceData = { ...(webData?.traceData ?? {}) }
+    if (!traceData.traceId) traceData.traceId = uuidv4()
+    trackerManager.replaceTraceData(traceData)
 
     // 对齐 Flutter pxToDp：App 发来的都是物理像素，需除以 dpr 转为 CSS px
     const dpr = window.devicePixelRatio || 1
@@ -73,18 +76,18 @@ if (webData && webData.product) config.setAppType(webData.product)
 
     // 初始化会员状态（任意会员类型有效即为会员）
     const now = config.serverNowMs()
-    const isPremiumUser = [
+    const isVip = [
       webData?.premiumDue,
       webData?.familyDue,
       webData?.myFamilyDue,
       webData?.platinumFamilyMemberDue,
       webData?.platinumFamilyOwnerDue,
     ].some(due => (parseInt(due) || 0) > now)
-    store.commit('SET_USER_PREMIUM', isPremiumUser)
+    store.commit('SET_USER_PREMIUM', { isVip })
 
     // 监听会员变化（用户购买后 App 推送 getExpireDate）
-    jsBridgeManager.registerMembershipChanged((isPremium) => {
-      store.commit('SET_USER_PREMIUM', isPremium)
+    jsBridgeManager.registerMembershipChanged((isVip, type) => {
+      store.commit('SET_USER_PREMIUM', { isVip, type })
     })
 
     const jsBridgeVersion = parseInt(webData && webData.jsBridgeVersion) || 0
@@ -94,12 +97,15 @@ if (webData && webData.product) config.setAppType(webData.product)
       return
     }
   } catch { /* 非 App 环境忽略 */ }
-  await store.dispatch('loadPacks')
-  jsBridgeManager.loadingSuccess()
-  jsBridgeManager.reportSceneVersion()
-  jsBridgeManager.getAddedStickerPacks().then(addedIds => {
-    if (addedIds && addedIds.length) store.dispatch('initAddedIds', addedIds)
-  })
+
+   jsBridgeManager.loadingSuccess()
+   jsBridgeManager.reportSceneVersion()
+
+  const [, addedIds] = await Promise.all([
+    store.dispatch('loadPacks'),
+    jsBridgeManager.getAddedStickerPacks(),
+  ])
+  if (addedIds && addedIds.length) store.dispatch('initAddedIds', addedIds)
   // URL 带 page=detail&contentId=xxx 时直接落地详情页
   const params = new URLSearchParams(window.location.search)
   console.log('[App] page param:', params.get('page'), 'contentId:', params.get('contentId'))

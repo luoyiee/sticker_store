@@ -18,11 +18,21 @@
 //   --skeleton-bg         占位块底色   亮色：#EBEBEC  暗色：#353538
 //   --skeleton-shimmer    扫光高亮色   亮色：#FBFBFC  暗色：#424248
 //
+// 动画规律：
+//   扫光层（::after）大小为占位块的 3×3（inset: -100%），初始居中。
+//   @keyframes 让它从左上角（-67%, -67%）匀速平移到右下角（67%, 67%），
+//   移动距离刚好让光带从块外侧扫入、扫出，视觉上是一条斜线从左上→右下扫过。
+//   overflow: hidden 裁掉超出占位块边界的部分，形成扫光效果。
+//
 // 可调参数：
-//   速度：2.5s 改大变慢，改小变快
-//   缓动：ease-in-out 改 linear 变匀速
-//   高光宽度：20% / 80% 两端向 50% 靠拢则变窄，远离则变宽
+//   速度：2s 改大变慢，改小变快
+//   缓动：linear 匀速；改 ease-in-out 有加减速感
+//   高光宽度：30% / 70% 两端向 50% 靠拢则变窄，远离则变宽
 //   圆角：border-radius 跟着占位图走
+//
+// 旧版参数（窄光带 + ease-in-out）：
+//   高光宽度：42% / 58%
+//   animation: shimmer-sweep 2.2s infinite ease-in-out;
 // ────────────────────────────────────────────────────────────────────────────
 
 .shimmer-host {
@@ -50,31 +60,29 @@
     content: '';
     position: absolute;
     inset: -100%;          // 扩大为 3×3，保证斜向扫光全程覆盖占位块
+
+    // ── 新版：宽光带 + linear（与 skeleton-loader-animation 效果一致）
     background: linear-gradient(
       135deg,
-      transparent             42%,
+      transparent             30%,
       var(--skeleton-shimmer) 50%,
-      transparent             58%
+      transparent             70%
     );
-    animation: shimmer-sweep 2.2s infinite ease-in-out;
+    animation: shimmer-sweep 2s infinite linear;
+
+    // ── 旧版：窄光带 + ease-in-out（切换时取消上面两行注释，注释下面两行）
+    // background: linear-gradient(
+    //   135deg,
+    //   transparent             42%,
+    //   var(--skeleton-shimmer) 50%,
+    //   transparent             58%
+    // );
+    // animation: shimmer-sweep 2.2s infinite ease-in-out;
   }
 
   &.loaded {
     opacity: 0;
     pointer-events: none;
-  }
-}
-
-.dark .shimmer {
-  background: var(--skeleton-bg);
-
-  &::after {
-    background: linear-gradient(
-      135deg,
-      transparent             42%,
-      var(--skeleton-shimmer) 50%,
-      transparent             58%
-    );
   }
 }
 
@@ -95,3 +103,5 @@
 .page-fade-leave-to {
   opacity: 0;
 }
+
+
